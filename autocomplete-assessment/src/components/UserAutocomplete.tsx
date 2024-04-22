@@ -1,37 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
+import { FormattedUser } from '../models/FormattedUser';
  
 function UserAutocomplete(props: any) {
 
   const { rawUserData } = props;
-  const [formattedUserData, setFormattedUserData] = useState([]);
+  const [formattedUserData, setFormattedUserData] = useState(Array<FormattedUser>);
 
+
+  useEffect(() => {
+    setFormattedUserData(formatUserData(rawUserData));
+  }, []);
+
+  // Takes a list of users from the raw user data and returns a 
+  // new list containing only the formatted user's id, name, and address
   function formatUserData(userData: []) {
-    userData.map((user) => {
-      
+    return userData.map((user: FormattedUser) => {
+      return user;
     });
   } 
 
-  // Takes a name as a string and returns a string that complies
-  // with the format "Last Name Suffix, First Name (Title)".
-  function formatName(name: string) {
-    let formattedName = "";
-    let nameParts;
-
-    try {
-      nameParts = name.split(" ");
-
-      if (nameParts[0].includes(".")) {
-        formattedName += `${nameParts.slice(2, -1)}, ${nameParts[1]} (${nameParts[0]})`
-      }
-      else {
-        formattedName += `${nameParts.slice(1, -1)}, ${nameParts[0]}`
-      }
-    }
-    catch (e: any) {
-      console.log(e.message);
-    }
-  }
  return (
     <Autocomplete
       id="user-autocomplete"
