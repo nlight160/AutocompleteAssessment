@@ -9,7 +9,10 @@ function App() {
   var [error, setError] = useState();
 
   useEffect(() => {
+    fetchUserData();
+  }, [rawUserData]);
 
+  function fetchUserData() {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => {
 
@@ -19,12 +22,12 @@ function App() {
         throw response;
       })
       .then((data) => {
-
+        
         setRawUserData(data);
       })
       .catch((error) => {
 
-        console.log(`${error}`);
+        console.log(`${error}`);     
         setError(error);
       })
       .finally(() => {
@@ -33,22 +36,14 @@ function App() {
           setLoading(false);
         }
       });
-  }, [rawUserData]);
-
-  if (loading) { 
-    return (<p>"Loading App..."</p>);
-  }
-
-  if (error) {
-    return (<p>"Something went wrong."</p>);
   }
 
   return (
     <div className="App">
       <header className="App-header">
-        <UserAutocomplete
-          data={rawUserData}
-        />
+        {error && <p className="user-text">Something went wrong.</p>}
+        {loading && !error && <p className="user-text">Loading App...</p>}
+        {!loading && !error && <UserAutocomplete data={rawUserData} />}
       </header>
     </div>
   );

@@ -9,13 +9,11 @@ function UserAutocomplete(props: any) {
   const [selectedUser, setSelectedUser] = useState<FormattedUser>();
 
   useEffect(() => {
-    console.log(rawUserData);
+    
     if (rawUserData) {
       setFormattedUserData(formatUserData(rawUserData));
     }
   }, [rawUserData]);
-
-
 
   // Takes a list of users from the raw user data and returns a 
   // new list containing only the formatted user's id, name, and address
@@ -58,7 +56,6 @@ function UserAutocomplete(props: any) {
       className="user-autocomplete"
       id="user-autocomplete"
       onChange={(event, newSelectedUser) => {
-        console.log(newSelectedUser)
         setSelectedUser(newSelectedUser as FormattedUser);
       }}
       options={ formattedUserData }
