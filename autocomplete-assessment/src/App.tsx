@@ -1,8 +1,52 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  var [userData, setUserData] = useState([]);
+  var [loading, setLoading] = useState(true);
+  var [error, setError] = useState();
+
+  useEffect(() => {
+    
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((response) => {
+
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+
+      })
+      .then((data) => {
+
+        setUserData(data);
+
+      })
+      .catch((error) => {
+
+        console.log(`${error}`);
+        setError(error);
+
+      })
+      .finally(() => {
+
+        if (userData) {
+          setLoading(false);
+        }
+
+      });
+  }, []);
+
+  if (loading) { 
+    return 'Loading App...';
+  }
+
+  if (error) {
+    return 'Something went wrong.';
+  }
+
   return (
     <div className="App">
       <header className="App-header">
