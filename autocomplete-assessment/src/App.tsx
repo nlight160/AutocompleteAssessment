@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
 
-  var [userData, setUserData] = useState([]);
+  var [rawUserData, setRawUserData] = useState([]);
   var [loading, setLoading] = useState(true);
   var [error, setError] = useState();
 
   useEffect(() => {
-    
-    fetch('https://jsonplaceholder.typicode.com/users')
+
+    fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => {
 
         if (response.ok) {
@@ -21,7 +21,7 @@ function App() {
       })
       .then((data) => {
 
-        setUserData(data);
+        setRawUserData(data);
 
       })
       .catch((error) => {
@@ -32,7 +32,7 @@ function App() {
       })
       .finally(() => {
 
-        if (userData) {
+        if (rawUserData) {
           setLoading(false);
         }
 
@@ -40,11 +40,11 @@ function App() {
   }, []);
 
   if (loading) { 
-    return 'Loading App...';
+    return "Loading App...";
   }
 
   if (error) {
-    return 'Something went wrong.';
+    return "Something went wrong.";
   }
 
   return (
