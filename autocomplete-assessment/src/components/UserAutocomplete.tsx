@@ -6,6 +6,7 @@ function UserAutocomplete(props: any) {
 
   const [rawUserData] = useState(props.data);
   const [formattedUserData, setFormattedUserData] = useState<FormattedUser[]>([]);
+  const [selectedUser, setSelectedUser] = useState<FormattedUser>();
 
   useEffect(() => {
     console.log(rawUserData);
@@ -23,11 +24,11 @@ function UserAutocomplete(props: any) {
       return {
           id: user.id,
           label: formatName(user.name),
-          street: user.street,
-          suite: user.suite,
-          city: user.city
+          street: user.address.street,
+          suite: user.address.suite,
+          zipcode: user.address.zipcode
         };
-    });
+    }).sort((a, b) => (a.label < b.label) ? -1 : 1);
   }
 
   // Takes a name as a string and returns a string that complies
@@ -38,12 +39,11 @@ function UserAutocomplete(props: any) {
 
       try {
           nameParts = name.split(" ");
-
           if (nameParts[0].includes(".")) {
-              return formattedName += `${nameParts.slice(2, -1)}, ${nameParts[1]} (${nameParts[0]})`
+              return formattedName += `${nameParts.slice(2)}, ${nameParts[1]} (${nameParts[0]})`;
           }
           else {
-              return formattedName += `${nameParts.slice(1, -1)}, ${nameParts[0]}`
+              return formattedName += `${nameParts.slice(1).join(" ")}, ${nameParts[0]}`;
           }
       }
       catch (e: any) {
@@ -57,9 +57,19 @@ function UserAutocomplete(props: any) {
     <Autocomplete
       className="user-autocomplete"
       id="user-autocomplete"
+      onChange={(event, newSelectedUser) => {
+        console.log(newSelectedUser)
+        setSelectedUser(newSelectedUser as FormattedUser);
+      }}
       options={ formattedUserData }
       renderInput={(userData) => <TextField {...userData} label="User"/>}
     />
+    <div>
+      <p className='user-text'>{selectedUser?.label}</p>
+      <p className='user-text'>{selectedUser?.street}</p>
+      <p className='user-text'>{selectedUser?.suite}</p>
+      <p className='user-text'>{selectedUser?.zipcode}</p>
+    </div>
   </div>
   );
 }

@@ -3,14 +3,14 @@ export class FormattedUser {
     label: string
     street: string
     suite: string
-    city: string
+    zipcode: string
 
-    constructor(id: number, label: string, street: string, suite: string, city:string) {
+    constructor(id: number, label: string, street: string, suite: string, zipcode:string) {
         this.id = id;
         this.label = label;
         this.street = street;
         this.suite = suite;
-        this.city = city;
+        this.zipcode = zipcode;
     }
 }
 
