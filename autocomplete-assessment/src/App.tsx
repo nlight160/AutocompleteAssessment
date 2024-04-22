@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import UserAutocomplete from "./components/UserAutocomplete";
 
 function App() {
 
@@ -17,51 +17,38 @@ function App() {
           return response.json();
         }
         throw response;
-
       })
       .then((data) => {
 
         setRawUserData(data);
-
       })
       .catch((error) => {
 
         console.log(`${error}`);
         setError(error);
-
       })
       .finally(() => {
 
         if (rawUserData) {
           setLoading(false);
         }
-
       });
-  }, []);
+  }, [rawUserData]);
 
   if (loading) { 
-    return "Loading App...";
+    return (<p>"Loading App..."</p>);
   }
 
   if (error) {
-    return "Something went wrong.";
+    return (<p>"Something went wrong."</p>);
   }
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <UserAutocomplete
+          data={rawUserData}
+        />
       </header>
     </div>
   );
